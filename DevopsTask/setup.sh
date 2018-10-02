@@ -1,10 +1,11 @@
 #!/bin/bash 
 
-apt update -y
-
+#update OS
+apt update -y 
+#install python-pip
 apt install python-pip -y
-
-pip install ansible -y
+#install ansible
+pip install ansible 
 
 
 

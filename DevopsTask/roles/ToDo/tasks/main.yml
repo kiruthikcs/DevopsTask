@@ -1,10 +1,10 @@
 ---
 - include_vars: ../var/main.yml
-- name: create user
+- name: create user and set home directory
   user:
     name: '{{ home }}'
     password: '{{ password }}'
-    groups: # Empty by default, here we give it some groups
+    groups: # Optional, Empty by default, Providing sudo access
      - sudo
     state: present
     shell: /bin/bash       
