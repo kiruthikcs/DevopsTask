@@ -1,0 +1,43 @@
+---
+
+- name: Starting
+  hosts: all
+  tasks:
+    - name: create user 
+      user:
+         name: user2
+         password: 'user002'
+         groups: # Empty by default, here we give it some groups
+          - sudo
+         state: present
+         shell: /bin/bash       # Defaults to /bin/bash
+         system: no             # Defaults to no
+         createhome: yes        # Defaults to yes
+         home: /home/user2
+    - name: set timezone to Asia/Kolkata
+      timezone:
+        name: Asia/Kolkata
+    - name: Install python
+      apt:
+       name: python
+       state: present
+    - name: supervisord installation
+      apt:
+       name: supervisor
+       state: present
+    - name: unzip, wget  installation to include consul 
+      apt:
+       name: "{{ item }}"
+       state: present
+      with_items:
+         - python
+         - supervisor
+         - unzip
+         - wget
+    - name: Consul latest version installation
+      shell: |
+         cd /usr/local/bin
+         sudo wget https://releases.hashicorp.com/consul/1.2.3/consul_1.2.3_linux_amd64.zip
+         sudo unzip consul_1.2.3_linux_amd64.zip
+         sudo rm -rf consul_1.2.3_linux_amd64.zip
+              

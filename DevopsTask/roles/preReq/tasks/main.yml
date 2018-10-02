@@ -1,0 +1,4 @@
+---
+- name: Repositories update for Debian
+  apt: update_cache=yes cache_valid_time=1500 upgrade=dist
+  when: ansible_os_family == 'Debian' or ansible_os_family == 'Ubuntu'

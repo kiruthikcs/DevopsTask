@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  roles:
+    - preReq
+    - ToDo
+  become: yes

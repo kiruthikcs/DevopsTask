@@ -1,0 +1,34 @@
+---
+- include_vars: ../var/main.yml
+- name: create user
+  user:
+    name: '{{ home }}'
+    password: '{{ password }}'
+    groups: # Empty by default, here we give it some groups
+     - sudo
+    state: present
+    shell: /bin/bash       
+    system: no             
+    createhome: yes        
+    home: /home/{{ home }}
+- name: Uploads a random local file from the host into the /home/testuser/ directory
+  template: src=Localfile.txt dest=/home/{{ home }}/
+- name: set timezone to Asia/Kolkata
+  timezone:
+   name: Asia/Kolkata
+- name: unzip, wget, python, supervisor, python-pip  installation
+  apt:
+   name: "{{ item }}"
+   state: present
+  with_items:
+     - python
+     - supervisor
+     - unzip
+     - wget
+     - python-pip
+- name: Consul latest version installation
+  shell: |
+   cd /usr/local/bin
+   sudo wget https://releases.hashicorp.com/consul/1.2.3/consul_1.2.3_linux_amd64.zip
+   sudo unzip consul_1.2.3_linux_amd64.zip
+   sudo rm -rf consul_1.2.3_linux_amd64.zip
